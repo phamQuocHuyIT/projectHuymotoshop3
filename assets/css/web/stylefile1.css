@@ -1,0 +1,24 @@
+﻿.khungcapnhat {
+    width: 500px;
+    height: 570px;
+    z-index: 2;
+    border: 2px solid black;
+    display: none;
+    position: relative;
+    z-index: 2;
+    left: 35%;
+    margin-top: -30%;
+    background-color: white
+}
+.khungchitiet {
+    width: 500px;
+    height: 570px;
+    z-index: 2;
+    border: 2px solid black;
+    display: none;
+    position: relative;
+    z-index: 2;
+    left: 35%;
+    margin-top: -30%;
+    background-color: white
+}

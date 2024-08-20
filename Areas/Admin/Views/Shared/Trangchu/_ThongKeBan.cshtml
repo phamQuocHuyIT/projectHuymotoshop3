@@ -1,0 +1,40 @@
+﻿@using doAnChuyenNghanh02.Models
+@{ 
+    MotoDBContext dBContext = new MotoDBContext();
+    List<thongkeban> listthogke = dBContext.thongkebans.ToList();
+}
+
+
+<div style="display: none">
+    @{
+        foreach (var item in listthogke)
+        {
+            <div id="idsp_ban_@item.IDSP" class="idsp-class">@item.IDSP</div>
+            <div id="tensp_ban_@item.IDSP" class="tensp-class">@item.TENSP</div>
+            <div id="soluong_ban_@item.IDSP" class="soluong-class">@item.soluongban</div>
+        }
+    }
+</div>
+<div class="col-sm-4" style="margin-top:10%">
+    <div id="myPlot" style="width: 100%; max-width: 500px; margin-top: 10%"></div>
+</div>
+
+<script>// Lấy tất cả các tên sản phẩm và số lượng bán từ các thẻ div
+    const tenspElements = document.querySelectorAll('.tensp-class');
+    const soluongElements = document.querySelectorAll('.soluong-class');
+
+    // Tạo mảng xArray và yArray
+    const xArray = [];
+    const yArray = [];
+
+    // Lặp qua các phần tử và thêm dữ liệu vào mảng
+    tenspElements.forEach((element, index) => {
+        xArray.push(element.innerText);
+        yArray.push(parseInt(soluongElements[index].innerText));
+    });
+
+    // Tạo biểu đồ
+    const layout = { title: "Thống kê sản phẩm bán" };
+    const data = [{ labels: xArray, values: yArray, type: "pie" }];
+    Plotly.newPlot("myPlot", data, layout);
+    </script>

@@ -1,0 +1,61 @@
+﻿@using System.Data.Entity;
+@using doAnChuyenNghanh02.Models;
+@using System.Linq;
+
+@{
+    MotoDBContext dbContext = new MotoDBContext();
+    DateTime now = DateTime.Now;
+    int currentMonth = now.Month;
+    int currentYear = now.Year;
+
+    var doanhThuHienTai = dbContext.DONHANGs
+        .Where(dh => dh.NGAYDAT.HasValue && dh.NGAYDAT.Value.Month == currentMonth && dh.NGAYDAT.Value.Year == currentYear)
+        .Join(dbContext.CHITIET_DONTHANG,
+              dh => dh.IDDONHANG,
+              ct => ct.IDDONHANG,
+              (dh, ct) => new { dh.NGAYDAT, ct.TONGTIEN })
+        .AsEnumerable()  // Chuyển sang IEnumerable để thực hiện xử lý nhóm bằng LINQ to Objects
+        .GroupBy(dh => dh.NGAYDAT.Value.Date)  // Nhóm theo ngày
+        .Select(g => new
+        {
+            NgayDat = g.Key,
+            TongTien = g.Sum(x => (int?)x.TONGTIEN) ?? 0
+        })
+        .OrderBy(item => item.NgayDat)
+        .ToList()
+        .Select(item => new ThongKeDoanhThuModelView
+        {
+            ThangNam = item.NgayDat.ToString("dd/MM/yyyy"),  // Định dạng ngày
+            TongTien = item.TongTien
+        })
+        .ToList();
+}
+<div class="col-sm-4" style="margin-top: 10%; margin-left:40%">
+    <div class="panel panel-danger" style="margin-top: 10%">
+        <div class="panel-heading"><h3 class="text-center"> Doanh thu hiện tại</h3></div>
+        <div class="panel-body">
+            @foreach (var item in doanhThuHienTai)
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Tháng</label>
+                        <div class="col-sm-8">
+                            <input name="tendn" class="form-control" value="@item.ThangNam" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Doanh thu</label>
+                        <div class="col-sm-8">
+                            <input name="password" class="form-control" value="@string.Format("{0:#,0}",item.TongTien) NVĐ" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+
+    </div>
+
+</div>

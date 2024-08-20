@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/User/Views/Shared/_LayoutAll.cshtml";
+}
+@model doAnChuyenNghanh02.Models.SANPHAM
+
+<div class="container">
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading"><h3 class="text-center text-uppercase">Thông tin sản phẩm</h3></div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <img src="~/assets/img/@Model.ANHSP" class="img-thumbnail" />
+                </div>
+
+                <div class="col-sm-6">
+                    <div id="khungct" style=" border: 2px solid black; background-color:white">
+                        <h3 class="text-center">Thông tin chi tiêt</h3>
+                        <div class="form-horizontal">
+                            <hr />
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Tên sản phẩm</label>
+                                <div class="col-sm-8">
+                                    <input name="detail_idpb" class="form-control" value="@Model.TENSP" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Giá</label>
+                                <div class="col-sm-8">
+                                    <input name="detail_tenpb" class="form-control" value="@string.Format("{0:#,0}", Model.GIA) VNĐ" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Danh mục</label>
+                                <div class="col-sm-8">
+                                    <input name="detail_tenpb" class="form-control" value="@Model.DANHMUC.TENDM" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Hãng xe</label>
+                                <div class="col-sm-8">
+                                    <input name="detail_tenpb" class="form-control" value="@Model.NHACUNGCAP.TENNCC" readonly />
+                                </div>
+                            </div>
+                            <a style="float: right" class="btn btn-info" href="@Url.Action("OrderNow", "ShoppingCart", new {Id = Model.IDSP})">Thêm sản phẩm</a>
+                            <div class="clearfix"></div>
+                            
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            </div>
+            <div class="panel-footer">
+                <h4>Giới thiệu</h4>
+                <span>@Model.MOTA</span>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+

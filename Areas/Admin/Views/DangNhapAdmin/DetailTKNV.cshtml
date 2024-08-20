@@ -1,0 +1,83 @@
+﻿@model doAnChuyenNghanh02.Models.TAIKHOANNHANVIEN
+@{
+    ViewBag.Title = "DetailTKNV";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+
+@using (Html.BeginForm("UpdateNV", "DangNhapAdmin", FormMethod.Post))
+{
+    <div class="col-sm-6" style="margin-top: 10%; margin-left: 25%">
+
+        <div class="panel panel-success">
+            <div class="panel-heading"><h3 class="text-center">Thông tin tài khoản</h3></div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">iD</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.IDTKNV" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Họ và tên</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.TENNV" name="tenkh" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Giới tính</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.GIOITINH" name="gioitinh" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Ngày sinh</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" type="datetime" value="@Model.NHANVIEN.NGAYSINH" name="ngaysinh" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Địa chỉ</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.DIACHI" name="diachi" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Điện thoại</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.DIENTHOAI" name="dienthoai" type="number" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Email</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.EMAIL" name="email" type="email" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Chức vụ</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.CHUCVU.TENCHUCVU" name="email" type="email" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Phòng ban</label>
+                    <div class="col-sm-8">
+                        <input type="text" class=" form-control" value="@Model.NHANVIEN.PHONGBAN.TENPB" name="email" type="email" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+    </div>
+}
+
+

@@ -1,0 +1,51 @@
+﻿@using doAnChuyenNghanh02.Models;
+@{
+    MotoDBContext dBContext1 = new MotoDBContext();
+    List<SANPHAMMOI> listspm = dBContext1.SANPHAMMOIs.Include("SANPHAM").ToList();
+}
+<section id="new-cars" class="new-cars">
+    <div class="container">
+        <div class="section-header">
+            <p>checkout <span>the</span> latest cars</p>
+            <h2>newest cars</h2>
+        </div><!--/.section-header-->
+        <div class="new-cars-content">
+            <div class="owl-carousel owl-theme" id="new-cars-carousel">
+                @{
+                    foreach (var item in listspm)
+                    {
+                        <div class="new-cars-item">
+                            <div class="single-new-cars-item">
+                                <div class="row">
+                                    <div class="col-md-7 col-sm-12">
+                                        <div class="new-cars-img">
+                                            <img src="~/assets/img/@item.SANPHAM.ANHSP" alt="img" />
+                                        </div><!--/.new-cars-img-->
+                                    </div>
+                                    <div class="col-md-5 col-sm-12">
+                                        <div class="new-cars-txt">
+                                            <h2><a href="#"><strong>@item.SANPHAM.TENSP</strong></a></h2>
+                                            <h2><a href="#"><strong>@string.Format("{0:#,0}", item.SANPHAM.GIA) VNĐ</strong></a></h2>
+                                            <button class="welcome-btn new-cars-btn">
+                                                <a href="@Url.Action("Detail", "User", new {idsp = item.SANPHAM.IDSP})" style="color: white"> Chi tiết</a>
+
+                                            </button>
+                                            <button class="welcome-btn new-cars-btn">
+                                                <a href="@Url.Action("OrderNow", "ShoppingCart", new { Id = item.IDSP })" style="color: white"> Thêm sản phẩm</a>
+
+                                            </button>
+                                        </div><!--/.new-cars-txt-->
+                                    </div><!--/.col-->
+                                </div><!--/.row-->
+                            </div><!--/.single-new-cars-item-->
+                        </div><!--/.new-cars-item-->
+                    }
+                }
+
+
+
+            </div><!--/#new-cars-carousel-->
+        </div><!--/.new-cars-content-->
+    </div><!--/.container-->
+
+</section>

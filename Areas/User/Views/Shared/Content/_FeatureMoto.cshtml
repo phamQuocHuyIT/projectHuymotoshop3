@@ -1,0 +1,44 @@
+﻿@model IEnumerable<doAnChuyenNghanh02.Models.SANPHAM>
+
+
+<section id="" class="featured-cars">
+    <div class="container">
+        <div class="section-header">
+            <p>checkout <span>the</span> featured cars</p>
+            <h2>featured cars</h2>
+        </div>
+        @Html.Partial("Content/_Categories")
+        <div class="featured-cars-content">
+            <div class="row">
+                @{
+                    foreach (var item in Model)
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-featured-cars">
+                                <div class="featured-img-box">
+                                    <div class="featured-cars-img">
+                                        <a href="@Url.Action("Detail" , "User", new {idsp = item.IDSP})">
+                                            <img src="~/assets/img/@item.ANHSP" alt="cars">
+                                        </a>
+
+                                    </div>
+                                    <div class="featured-model-info">
+                                        <div class="featured-cars-txt">
+                                            <h2><a href="@Url.Action("Detail", "User", new {idsp = item.IDSP})">@item.TENSP</a></h2>
+                                            <h3>@string.Format("{0:#,0}", item.GIA) VNĐ</h3>
+                                            <a class="btn btn-default" href="@Url.Action("OrderNow", "ShoppingCart", new { Id = item.IDSP })" > Thêm sản phẩm</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--featured-cars end -->

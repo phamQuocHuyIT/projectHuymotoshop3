@@ -1,0 +1,81 @@
+﻿@using doAnChuyenNghanh02.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/User/Views/Shared/_LayoutAll.cshtml";
+}
+
+@{
+    if (Session["Cart"] != null)
+    {
+        using (Html.BeginForm("UpdateCart", "ShoppingCart", FormMethod.Post))
+        {
+            <table class="table">
+                <tr>
+                    <td>Name</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                    <td>Sub Total</td>
+                    <td>Action</td>
+                </tr>
+
+                @{
+                    foreach (var cart in (List<Cart>)Session["Cart"])
+                    {
+                        double p = Convert.ToDouble(cart.Product.GIA);
+                        int q;
+                        
+                        
+                            q = Convert.ToInt32(cart.Quantity);
+                        
+                        
+                        double subtatol = p * q;
+                        <tr>
+                            <td>@cart.Product.TENSP</td>
+                            <td>
+                                <input type="text" name="quantity" values="@cart.Quantity" />
+                            </td>
+                            <td>@Html.FormatValue(cart.Product.GIA, "{0:C}")</td>
+                            <td>@Html.FormatValue(subtatol, "{0:C}")</td>
+                            <td>
+                                @Html.ActionLink("Delete", "RemoveItem", "ShoppingCart", new { Id = cart.Product.IDSP }, new { oclick = cart.Quantity })
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        @{
+                            List<Cart> temp = (List<Cart>)Session["Cart"];
+                            var total = temp.Sum(x => x.Quantity * x.Product.GIA);
+                        }
+                        <td colspan="2">
+                            
+                            <a href="@Url.Action("Index", "User")" class="btn btn-default">Quay lại</a>
+                            &nbsp; <a href="@Url.Action("ClearCart", "ShoppingCart")" class="btn btn-default">Làm mới</a>
+                            &nbsp;<a href="@Url.Action("CheckOut", "ShoppingCart")"  class="btn btn-default">Đặt hàng</a>
+                            &nbsp;<input type="submit" value="Update Cart" class="btn btn-default"/><br />
+                            <span id="errmsg" style="color: red"></span>
+                        </td>
+                        <td align="right">Total: </td>
+                        <td colspan="2">
+                            @Html.FormatValue(total, "{0:C}")
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    }
+    else
+    {
+        <h4>No items in your cart</h4>
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        & (".quantity").keypress(function (e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) {
+                $("#errmsg").html("Enter digits only!").show().fadeOut("slow");
+                return false;
+            }
+        })
+    })
+</script>
+

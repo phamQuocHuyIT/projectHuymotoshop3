@@ -1,0 +1,65 @@
+﻿@model doAnChuyenNghanh02.Models.TAIKHOANKHACHHANG
+@{
+    ViewBag.Title = "ChangePass";
+    Layout = "~/Areas/User/Views/Shared/_LayoutAll.cshtml";
+}
+
+
+<div class="panel panel-danger">
+    <div class="panel-heading"><h3 class="text-center">Đổi mật khẩu</h3></div>
+    <div class="panel-body">
+        @using (Html.BeginForm("ChangePassWord", "TaiKhoanKH", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="control-label col-md-4">Tên đăng nhập</label>
+                    <div class="col-sm-8">
+                        <input name="tendn" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">Mật khẩu mới</label>
+                    <div class="col-sm-8">
+                        <input name="new_pass" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">Nhập lại mật khẩu</label>
+                    <div class="col-sm-8">
+                        <input name="corect_pass" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">Mật khẩu củ</label>
+                    <div class="col-sm-8">
+                        <input name="old_pass" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-danger" style="float: right">Cập nhật</button>
+        }
+    </div>
+</div>
+<script>
+    function check() {
+        var new_pass = document.getElementsByName("new_pass")[0].value;
+        var corect_pass = document.getElementsByName("corect_pass")[0].value;
+
+        if (new_pass !== corect_pass) {
+            alert("Mật khẩu mới và mật khẩu xác nhận không trùng khớp. Vui lòng kiểm tra lại.");
+            return false; // Ngăn chặn việc gửi form
+        }
+
+        return true; // Cho phép gửi form nếu mật khẩu khớp nhau
+    }
+    document.querySelector("form").onsubmit = check;
+</script>
+
+
+

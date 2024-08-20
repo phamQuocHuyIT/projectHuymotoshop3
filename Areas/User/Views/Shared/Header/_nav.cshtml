@@ -1,0 +1,66 @@
+﻿<!-- top-area Start -->
+<div class="top-area">
+    <div class="header-area">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy" data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+
+            <div class="container">
+
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="index.html">HuymotoShop<span></span></a>
+
+                </div><!--/.navbar-header-->
+                <!-- End Header Navigation -->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class=""><a href="@Url.Action("Index", "User")">Trang chủ</a></li>
+                        <li class="scroll"><a href="#service">dịch vụ</a></li>
+
+                        <li class="scroll"><a href="#new-cars">xe mới</a></li>
+                        <li class=""><a href="@Url.Action("Products", "User", new {iddmsp =0})">Sản Phẩm</a></li>
+                        <li class=""><a href="@Url.Action("Index", "ShoppingCart")">Giỏ hàng</a></li>
+
+                        @if (Session["idtkkh"] != null)
+                        {
+                            <!-- <li><a href="Url.Action("TaiKhoan", "ShoppingCart")">Session["tenkh"]</a></li>-->
+                            <li class="dropdown" style="margin-top: 5.9%">
+                                
+                                <button class="dropdown-toggle scroll" style="color: white" data-toggle="dropdown">@Session["tenkh"]<span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Index", "TaiKhoanKH")" style="font-size: 15px" class="">Thông tin</a></li>
+                                    <li><a href="@Url.Action("DonHang", "TaiKhoanKH")" style="font-size: 15px" >Đơn hàng</a></li>
+                                    <li><a href="@Url.Action("ChangePass", "TaiKhoanKH")" style="font-size: 15px" >Đôi mật khẩu</a></li>
+                                </ul>
+                                    
+                            </li>
+                           
+
+                        }
+                        else
+                        {
+                            <li class=""><a href="@Url.Action("DangNhap", "ShoppingCart")">Đăng nhập</a></li>
+                        }
+                    </ul><!--/.nav -->
+                </div><!-- /.navbar-collapse -->
+            </div><!--/.container-->
+        </nav><!--/nav-->
+        <!-- End Navigation -->
+    </div><!--/.header-area-->
+    <div class="clearfix"></div>
+
+</div><!-- /.top-area-->
+<div class="container">
+    <div class="welcome-hero-txt">
+        <h2>NHẬN XE MONG MUỐN VỚI GIÁ HỢP LÝ</h2>
+        <p>
+            Xe không chỉ là phương tiện, xe còn là người bạn đồng hành trên chuyến hành trình của chúng ta. Tôi yêu xe và bạn cũng thế.
+        </p>
+        <button class="welcome-btn" onclick="window.location.href='#contact'">Liên hệ chúng tôi</button>
+    </div>
+</div>
+<!-- top-area End -->

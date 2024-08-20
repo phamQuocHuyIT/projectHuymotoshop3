@@ -1,0 +1,58 @@
+﻿<!-- top-area Start -->
+<div class="top-area">
+    <div class="header-area" style="background-color: black">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy" data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+
+            <div class="container">
+
+                <!-- Start Header Navigation -->
+                <div class="navbar-header" style="margin-left: -100px">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" style="font-size: 20px" href="index.html">HuymotoShop<span></span></a>
+
+                </div><!--/.navbar-header-->
+                <!-- End Header Navigation -->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu" style="margin-left: -50px">
+                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class=""><a href="@Url.Action("Index", "Admin")">Trang chủ</a></li>
+                        <li class=""><a href="@Url.Action("Index", "SanPham")">Sản phẩm</a></li>
+                        <li class=""><a href="@Url.Action("Index", "DonHang")">Đơn hàng</a></li>
+                        <li><a href="@Url.Action("Index", "HDNhap")">Hóa đơn nhập</a></li>
+                        <li class=""><a href="@Url.Action("Index", "PhongBan")">Phòng Ban</a></li>
+                        <li class=""><a href="@Url.Action("Index", "NhanVien")">Nhân Viên</a></li>
+
+                        @if (Session["idtknv"] != null)
+                        {
+
+                            <li class="dropdown" style="margin-top: 5.9%">
+
+                                <button class="dropdown-toggle scroll" style="color: white" data-toggle="dropdown">@Session["tennv"]<span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("DetailTKNV", "DangNhapAdmin")" style="font-size: 15px" class="">Thông tin</a></li>
+
+                                    <li><a href="@Url.Action("ChangPass", "DangNhapAdmin")" style="font-size: 15px">Đôi mật khẩu</a></li>
+                                </ul>
+
+                            </li>
+
+
+                        }
+                        else
+                        {
+                            <li class=""><a href="@Url.Action("Index", "DangNhapAdmin")">Đăng nhập</a></li>
+                        }
+
+                    </ul><!--/.nav -->
+                </div><!-- /.navbar-collapse -->
+            </div><!--/.container-->
+        </nav><!--/nav-->
+        <!-- End Navigation -->
+    </div><!--/.header-area-->
+    <div class="clearfix"></div>
+
+</div><!-- /.top-area-->
+<!-- top-area End -->

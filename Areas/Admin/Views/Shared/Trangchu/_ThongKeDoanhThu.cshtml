@@ -1,0 +1,70 @@
+﻿@using System.Data.Entity;
+@using doAnChuyenNghanh02.Models;
+
+@{
+    MotoDBContext dbContext = new MotoDBContext();
+
+    var thongKeTheoThang = dbContext.DONHANGs
+        .Where(dh => dh.NGAYDAT.HasValue)
+        .GroupBy(dh => new
+        {
+            Month = dh.NGAYDAT.Value.Month,
+            Year = dh.NGAYDAT.Value.Year
+        })
+        .Select(g => new
+        {
+            Month = g.Key.Month,
+            Year = g.Key.Year,
+            TongTien = g.Sum(ct => ct.CHITIET_DONTHANG.Sum(x => (int?)x.TONGTIEN) ?? 0) // Tính tổng tiền theo nhóm
+        })
+        .ToList()
+        .Select(item => new ThongKeDoanhThuModelView
+        {
+            ThangNam = $"{item.Month}/{item.Year}",  // Định dạng tháng/năm
+            TongTien = item.TongTien
+        })
+        .OrderBy(item => item.ThangNam)  // Sắp xếp theo tháng/năm
+        .ToList();
+}
+<div style="display: none">
+    @foreach (var item in thongKeTheoThang)
+    {
+        <div class="thangnam-class">@item.ThangNam</div>
+        <div class="tongtien-class">@item.TongTien</div>
+    }
+</div>
+
+<div class="col-sm-4" style="margin-top:10%">
+    <div id="myPlot4" style="width: 100%; max-width: 500px; margin-top: 10%"></div>
+</div>
+
+<script>
+    // Lấy tất cả các tháng/năm và tổng tiền từ các thẻ div
+    const thangNamElementsDT = document.querySelectorAll('.thangnam-class');
+    const tongTienElementsDT = document.querySelectorAll('.tongtien-class');
+
+    // Tạo mảng bieni và bienu
+    const bieni = [];
+    const bienu = [];
+
+    // Lặp qua các phần tử và thêm dữ liệu vào mảng
+    thangNamElementsDT.forEach((element, index) => {
+        bieni.push(element.innerText);
+        bienu.push(parseInt(tongTienElementsDT[index].innerText));
+    });
+
+    // Tạo biểu đồ Line
+    const layoutDT = {
+        title: "Thống kê doanh thu theo tháng",
+        xaxis: { title: "Tháng/Năm" },
+        yaxis: { title: "Tổng doanh thu (VNĐ)" }
+    };
+
+    const dataDT = [{
+        x: bieni,
+        y: bienu,
+        type: "line"  // Sử dụng loại biểu đồ đường
+    }];
+
+    Plotly.newPlot("myPlot4", dataDT, layoutDT);
+</script>

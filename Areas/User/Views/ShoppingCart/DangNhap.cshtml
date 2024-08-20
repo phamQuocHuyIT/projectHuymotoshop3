@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = "~/Areas/User/Views/Shared/_LayoutAll.cshtml";
+}
+
+@using (Html.BeginForm("CheckDangNhap", "ShoppingCart", FormMethod.Post))
+{
+    <div style="margin-left:20%; margin-top: 5%">
+        <div class="col-sm-8">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="text-center">Đăng nhập</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Tên đăng nhập</label>
+                        <div class="col-sm-8">
+                            <input name="tendn" class="form-control" type="text" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 5px">
+                        <label class="control-label col-md-4">Mật khẩu</label>
+                        <div class="col-sm-8">
+                            <input name="mkdn" class="form-control" type="password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button style="float: right" type="submit" class="btn btn-info">Đăng nhập</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+

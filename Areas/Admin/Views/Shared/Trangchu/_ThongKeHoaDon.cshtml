@@ -1,0 +1,67 @@
+﻿@using System.Data.Entity;  
+@using doAnChuyenNghanh02.Models
+@{
+    MotoDBContext dBContext = new MotoDBContext();
+    var thongKeTheoThang = dBContext.HOADONNHAPs
+        .Where(dh => dh.NGAYNHAP.HasValue)
+        .GroupBy(dh => new
+        {
+            Month = dh.NGAYNHAP.Value.Month,
+            Year = dh.NGAYNHAP.Value.Year
+        })
+        .Select(g => new
+        {
+            Month = g.Key.Month,
+            Year = g.Key.Year,
+            soluong = g.Count()
+        })
+        .ToList()
+        .Select(item => new ThongKeHoaDonNhap
+        {
+            ThangNam = $"{item.Month}/{item.Year}",  // Định dạng tháng/năm sau khi dữ liệu đã được tải
+            soluong = item.soluong
+        })
+        .OrderBy(item => item.ThangNam)  // Sắp xếp theo tháng/năm
+        .ToList();
+}
+<div style="display: none">
+    @{
+        foreach (var item in thongKeTheoThang)
+        {
+            <div class="thangnam-class1">@item.ThangNam</div>
+            <div class="soluong-class1">@item.soluong</div>
+        }
+    }
+</div>
+<div class="col-sm-4">
+    <div id="myPlot2" style="width: 100%; max-width: 500px; margin-top: 10%"></div>
+</div>
+
+<script>// Lấy tất cả các tháng/năm và số lượng từ các thẻ div
+    const thangNamElements1 = document.querySelectorAll('.thangnam-class1');
+    const soluongElements2 = document.querySelectorAll('.soluong-class1');
+
+    // Tạo mảng bienx và bieny
+    const bienx1 = [];
+    const bieny1 = [];
+
+    // Lặp qua các phần tử và thêm dữ liệu vào mảng
+    thangNamElements1.forEach((element, index) => {
+        bienx1.push(element.innerText);
+        bieny1.push(parseInt(soluongElements2[index].innerText));
+    });
+
+    // Tạo biểu đồ Bar
+    const layout2 = {
+        title: "Thống kê hóa đơn nhập theo tháng",
+        xaxis: { title: "Tháng/Năm" },
+        yaxis: { title: "Số lượng hóa đơn" }
+    };
+
+    const data2 = [{
+        x: bienx1,
+        y: bieny1,
+        type: "line"  // Sử dụng loại biểu đồ thanh
+    }];
+
+    Plotly.newPlot("myPlot2", data2, layout2);</script>

@@ -1,0 +1,214 @@
+﻿@model IEnumerable<doAnChuyenNghanh02.Models.HOADONNHAP>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="margin-top:10%">Danh sách hóa đơn</h2>
+
+<button type="button" style="float: right" class="btn btn-default" onclick="hienkhungthem()">Thêm Hóa đơn</button>
+<div style="display: block; justify-content: center; margin-right: 20px">
+
+    <!--Bảng nhân viên-->
+    <table class="table" style="z-index:1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ngày nhập</th>
+                <th>Trạng thái</th>
+                <th>Ghi chú</th>
+                <th>Tên nhân viên</th>
+                <th>Hành động</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IDHDNHAP</td>
+                    <td>@item.NGAYNHAP</td>
+                    <td>@item.TRANGTHAI</td>
+                    <td>@(item.GHICHU != null ? item.GHICHU : "NULL")</td>
+                    <td>@(item.TAIKHOANNHANVIEN != null ? item.TAIKHOANNHANVIEN.NHANVIEN.TENNV : "NULL")</td>
+
+                    <td>
+                        <a class="btn btn-default" href="@Url.Action("DetailHDN", "HDNhap", new {idhdn = item.IDHDNHAP})">Chi Tiết</a>
+                        <button type="button" class="btn btn-info"
+                                onclick="hienkhungcn('@item.IDHDNHAP', '@item.NGAYNHAP', '@item.TRANGTHAI', '@(item.GHICHU != null ? item.GHICHU : "NULL")', '@(item.TAIKHOANNHANVIEN != null ? item.TAIKHOANNHANVIEN.NHANVIEN.TENNV : "NULL")')">
+                            Cập nhật
+                        </button>
+                        <a class="btn btn-danger" href="@Url.Action("DeleteHDN", "HDNhap", new {idhdn = item.IDHDNHAP})">Xóa</a>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Khung cập nhật -->
+
+<div id="khungcn" style="width:500px; height:350px; z-index: 2; border: 2px solid black; display:none; position: relative; z-index:2; left:35%; margin-top:-20%; background-color:white">
+
+    <button onclick="dongkhungcn()" type="button" style="float:right; padding-right:10px; padding-left:10px; z-index: 3">X</button>
+
+    <h3 class="text-center">Cập nhật Hóa đơn</h3>
+    @using (Html.BeginForm("UpdateHDN", "HDNhap", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label col-md-4">Mã Đơn hàng</label>
+                <div class="col-sm-8">
+                    <input name="idhdn1" class="form-control" readonly />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Ngày đặt</label>
+                <div class="col-sm-8">
+                    <input name="ngaynhap1" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Trạng thái</label>
+                <div class="col-sm-8">
+                    <input name="trangthai1" class="form-control" readonly />
+
+                    <select name="trangthaii" class="col-sm-8" style="float: right">
+                        <option value="Thành công">Thành công</option>
+                        <option value="Đang xử lý">Đang xử lý</option>
+                       
+                        <option value="Thất bại">Thất bại</option>
+                    </select>
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Ghi chú</label>
+                <div class="col-sm-8">
+                    <input name="ghichu1" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Tên nhân viên</label>
+                <div class="col-sm-8">
+                    <input name="idtknv1" class="form-control" readonly/>
+                </div>
+            </div>
+
+
+
+        </div>
+        <button type="submit" class="btn btn-info" style="float: right">Cập nhật</button>
+    }
+</div>
+<!--Khung thêm-->
+<div id="khungthem" style="width:500px; height:350px; z-index: 2; border: 2px solid black; display:none; position: relative; z-index:2; left:35%; margin-top:-20%; background-color:white">
+
+    <button onclick="dongkhungthem()" type="button" style="float:right; padding-right:10px; padding-left:10px; z-index: 3">X</button>
+
+    <h3 class="text-center">Thêm đơn hàng</h3>
+    @using (Html.BeginForm("CreateHDN", "HDNhap", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Ngày đặt</label>
+                <div class="col-sm-8">
+                    <input name="ngaynhap" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Trạng thái</label>
+                <div class="col-sm-8">
+                    <input name="trangthai" class="form-control" value="Đang xử lý" readonly />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Ghi chú</label>
+                <div class="col-sm-8">
+                    <input name="ghichu" class="form-control" />
+                </div>
+            </div>
+
+            
+
+            <div class="form-group">
+                <label class="control-label col-md-4">ID sản phẩm</label>
+                <div class="col-sm-8">
+                    <input name="idsp" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">số lượng</label>
+                <div class="col-sm-8">
+                    <input name="soluong" class="form-control" type="number" />
+                </div>
+            </div>
+       
+
+        </div>
+
+        <button type="submit" class="btn btn-info" style="float: right">Thêm hóa đơn</button>
+
+    }
+</div>
+<script>
+
+
+    //function to show the update model
+    function hienkhungcn(iddh, ngaydat, trangthai, ghichu, tennv) {
+        const khungct = document.getElementById("khungcn");
+        khungct.style.display = "block";
+
+        // Check if gioitinh is a boolean or a string representation of boolean
+
+
+        document.getElementsByName("idhdn1")[0].value = iddh;
+        document.getElementsByName("ngaynhap1")[0].value = ngaydat;
+        document.getElementsByName("trangthai1")[0].value = trangthai;
+        document.getElementsByName("ghichu1")[0].value = ghichu;
+        document.getElementsByName("idtknv1")[0].value = tennv
+
+    }
+
+    // Function to close the update modal
+    function dongkhungcn() {
+        const khungct = document.getElementById("khungcn");
+        khungct.style.display = "none";
+    }
+
+    function hienkhungthem() {
+        const khungct = document.getElementById("khungthem");
+        khungct.style.display = "block";
+
+        document.getElementsByName("ngaynhap")[0].value = new Date().toISOString().substring(0, 10);
+
+    }
+
+    // Function to close the update modal
+    function dongkhungthem() {
+        const khungct = document.getElementById("khungthem");
+        khungct.style.display = "none";
+    }
+</script>
+

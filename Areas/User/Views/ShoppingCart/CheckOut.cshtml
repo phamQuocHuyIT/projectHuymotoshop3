@@ -1,0 +1,56 @@
+﻿@using doAnChuyenNghanh02.Models
+@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Areas/User/Views/Shared/_LayoutAll.cshtml";
+}
+
+<h3>Customer's Information</h3>
+@using (Html.BeginForm("ProcessOrder", "ShoppingCart", FormMethod.Post, new { id = "customer-form" }))
+{
+    @* Hidden field to pass the idtkkh *@
+    <input  name="idtkkh" value="@ViewBag.Idtkkh" />
+    if (Session["Cart"] != null)
+    {
+        <table class="table">
+            <tr>
+                <td>Name</td>
+                <td>Quantity</td>
+                <td>Price</td>
+                <td>Sub Total</td>
+            </tr>
+            @foreach (var cart in (List<Cart>)Session["Cart"])
+            {
+
+                double p = Convert.ToDouble(cart.Product.GIA);
+                int q = Convert.ToInt32(cart.Quantity);
+                double subtatol = p * q;
+                <tr>
+                    <td>@cart.Product.TENSP</td>
+                    <td>
+                        @cart.Quantity
+                    </td>
+                    <td>@Html.FormatValue(cart.Product.GIA, "{0:C}")</td>
+                    <td>@Html.FormatValue(subtatol, "{0:C}")</td>
+
+                </tr>
+            }
+            <tr>
+                @{
+                    List<Cart> temp = (List<Cart>)Session["Cart"];
+                    var total = temp.Sum(x => x.Quantity * x.Product.GIA);
+                }
+
+                <td colspan="2">&nbsp;</td>
+                <td align="right">Total: </td>
+                <td>@Html.FormatValue(total, "{0:C}")</td>
+            </tr>
+
+        </table>
+        <button type="submit" style="float: right" class="btn btn-default">Đặt hàng</button>
+    }
+    else
+    {
+        <h4>No items in your cart</h4>
+    }
+}
+<

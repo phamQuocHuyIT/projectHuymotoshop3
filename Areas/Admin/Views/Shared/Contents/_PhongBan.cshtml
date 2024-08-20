@@ -1,0 +1,39 @@
+﻿@using doAnChuyenNghanh02.Models;
+
+@{
+    MotoDBContext dbContext = new MotoDBContext();
+
+    List<PHONGBAN> listphongban = dbContext.PHONGBANs.ToList();
+    List<CHUCVU> listchuvu = dbContext.CHUCVUs.ToList();
+}
+<h3 style="margin-top:115px">Lọc nhân viên</h3>
+
+@{
+
+    using (Html.BeginForm("FillerNV", "NhanVien", FormMethod.Post))
+    {
+        <select class="btn btn-default" name="phongban">
+            <option value="">Tất cả</option>
+            @{
+                foreach (var item in listphongban)
+                {
+                    <option value="@item.IDPHONGBAN">@item.TENPB</option>
+                }
+            }
+        </select>
+
+        <select class="btn btn-default" name="chucvu">
+            <option value="">Tất cả</option>
+            @{ 
+                foreach(var item in listchuvu)
+                {
+                    <option value="@item.IDCV">@item.TENCHUCVU</option>
+                }
+            }
+        </select>
+        
+        <button type="submit" class="btn btn-default" style="">Tìm kiếm</button>
+    }
+}
+
+

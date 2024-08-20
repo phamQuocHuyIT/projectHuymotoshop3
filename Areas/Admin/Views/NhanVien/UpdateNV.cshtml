@@ -1,0 +1,90 @@
+﻿@model doAnChuyenNghanh02.Models.NHANVIEN
+
+@{
+    ViewBag.Title = "UpdateNV";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+
+
+
+<h3>Cập nhật nhân viên</h3>
+@using (Html.BeginForm("UpdateNV", "NhanVien", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">Tên nhân viên</label>
+        <div class="col-sm-4">
+            <input name="idnv1" class="form-control" value="@Model.IDNV" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Tên nhân viên</label>
+        <div class="col-sm-4">
+            <input name="tennv1" class="form-control" value="@Model.TENNV" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Ngày sinh</label>
+        <div class="col-sm-4">
+            <input name="ngaysinh1" class="form-control" value="@Model.NGAYSINH" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Giới tính</label>
+        <div class="col-sm-4">
+            <input name="gioitinh1" class="form-control" value="@Model.GIOITINH" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Địa chỉ</label>
+        <div class="col-sm-4">
+            <input name="diachi1" class="form-control" value="@Model.DIACHI" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Điện thoại</label>
+        <div class="col-sm-4">
+            <input name="dienthoai1" class="form-control" value="@Model.DIENTHOAI" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Email</label>
+        <div class="col-sm-4">
+            <input name="email1" class="form-control" value="@Model.EMAIL" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Chức vụ</label>
+        <div class="col-sm-4">
+            <input name="chucvu1" class="form-control" value="@Model.CHUCVU.TENCHUCVU" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Phòng ban</label>
+        <div class="col-sm-4">
+            <input name="phongban1" class="form-control" value="@Model.PHONGBAN.TENPB" />
+
+        </div>
+    </div>
+</div>
+    <div class="form-group">
+
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-info" style="float: right">Cập nhật</button>
+        </div>
+    </div>
+}

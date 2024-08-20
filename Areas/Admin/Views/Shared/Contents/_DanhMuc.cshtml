@@ -1,0 +1,28 @@
+﻿@using doAnChuyenNghanh02.Models 
+@{
+    MotoDBContext dbContext = new MotoDBContext();
+
+    List<DANHMUC> listdanhmuc = dbContext.DANHMUCs.ToList();
+    List<CHUCVU> listchuvu = dbContext.CHUCVUs.ToList();
+}
+<h3 style="margin-top:115px">Lọc sản phẩm</h3>
+
+@{
+
+    using (Html.BeginForm("FillerDM", "SanPham", FormMethod.Post))
+    {
+        <select class="btn btn-default" name="danhmuc">
+            <option value="0">Tất cả</option>
+            @{
+                foreach (var item in listdanhmuc)
+                {
+                    <option value="@item.IDDM">@item.TENDM</option>
+                }
+            }
+        </select>
+
+        
+
+        <button type="submit" class="btn btn-default" style="">Tìm kiếm</button>
+    }
+}

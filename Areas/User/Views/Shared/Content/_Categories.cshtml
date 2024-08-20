@@ -1,0 +1,26 @@
+﻿@using doAnChuyenNghanh02.Models;
+@{
+    MotoDBContext dBContext1 = new MotoDBContext();
+    List<DANHMUC> listdm = dBContext1.DANHMUCs.ToList();
+}
+
+@{
+
+    <div class="container">
+        <div class="row">
+            <a class="btn btn-default" href="@Url.Action("Products", "User", new {iddmsp = 0} )">Tất Cả</a>
+            @foreach (var item in listdm)
+            {
+
+                <a class="btn btn-default" href="@Url.Action("Products", "User", new {iddmsp = item.IDDM} )">@item.TENDM</a>
+
+            }
+
+
+        </div>
+    </div>
+
+
+
+}
+

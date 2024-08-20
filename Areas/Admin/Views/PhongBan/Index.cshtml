@@ -1,0 +1,189 @@
+﻿@model IEnumerable<doAnChuyenNghanh02.Models.PHONGBAN>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="margin-top:10%">Danh sách nhân viên</h2>
+
+<button type="button" style="float: right" class="btn btn-default" onclick="hienkhungthem()">Thêm phòng ban</button>
+<div style="display: block; justify-content: center; margin-right: 20px">
+
+    <!--Bảng nhân viên-->
+    <table class="table" style="z-index:1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên phòng ban</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var phongban in Model)
+            {
+                <tr>
+                    <td>@phongban.IDPHONGBAN</td>
+                    <td>@phongban.TENPB</td>
+                
+                    <td>
+                        <button type="button" class="btn btn-default"
+                                onclick="hienkhungct('@phongban.IDPHONGBAN', '@phongban.TENPB')">
+                            Chi tiết
+                        </button>
+                        <button type="button" class="btn btn-info"
+                                onclick="hienkhungcn('@phongban.IDPHONGBAN', '@phongban.TENPB')">
+                            Cập nhật
+                        </button>
+                        <a class="btn btn-danger" href="@Url.Action("DeletePB", "PhongBan", new {idpb = phongban.IDPHONGBAN})">Xóa</a>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Khung chi tiết nhân viên -->
+<div id="khungct" style="width:500px; height:200px; z-index: 2; border: 2px solid black; display:none; position: relative; z-index:2; left:35%; margin-top:-30%; background-color:white">
+    <div style="width: 496px; background-color: #ccc; height: 20px; z-index: 3">
+        <button onclick="dongkhungct()" type="button" style="float:right; padding-right:10px; padding-left:10px">X</button>
+    </div>
+    <h3 class="text-center">Thông tin phòng ban</h3>
+
+
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            <label class="control-label col-md-4">Mã Phòng Ban</label>
+            <div class="col-sm-8">
+                <input name="detail_idpb" class="form-control" readonly />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-4">Tên Phòng Ban</label>
+            <div class="col-sm-8">
+                <input name="detail_tenpb" class="form-control" readonly />
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- Khung cập nhật nhân viên -->
+
+        <div id="khungcn" style="width:500px; height:230px; z-index: 2; border: 2px solid black; display:none; position: relative; z-index:2; left:35%; margin-top:-30%; background-color:white">
+            <div style="width: 496px; background-color: #ccc; height: 20px; z-index: 3">
+                <button onclick="dongkhungcn()" type="button" style="float:right; padding-right:10px; padding-left:10px">X</button>
+            </div>
+            <h3 class="text-center">Cập nhật phòng ban</h3>
+            @using (Html.BeginForm("UpdatePB", "PhongBan", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Mã Phòng Ban</label>
+                        <div class="col-sm-8">
+                            <input name="idpb1" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Tên Phòng Ban</label>
+                        <div class="col-sm-8">
+                            <input name="tenpb1" class="form-control"  />
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info" style="float: right">Cập nhật</button>
+             }
+        </div>
+<!--Khung thêm phòng ban-->
+                <div id="khungthem" style="width:500px; height:230px; z-index: 2; border: 2px solid black; display:none; position: relative; z-index:2; left:35%; margin-top:-30%; background-color:white">
+                    <div style="width: 496px; background-color: #ccc; height: 20px; z-index: 3">
+                        <button onclick="dongkhungthem()" type="button" style="float:right; padding-right:10px; padding-left:10px">X</button>
+                    </div>
+                    <h3 class="text-center">Thêm phòng ban</h3>
+                    @using (Html.BeginForm("CreatePB", "PhongBan", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Mã phòng ban</label>
+                                <div class="col-sm-8">
+                                    <input name="mapb" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Tên Phòng Ban</label>
+                                <div class="col-sm-8">
+                                    <input name="tenpb" class="form-control" />
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-info" style="float: right">Thêm Phòng Ban</button>
+
+                    }
+                </div>
+                <script>
+                    // Function to show the detail modal
+                    function hienkhungct(idpb, tenpb) {
+                        const khungct = document.getElementById("khungct");
+                        khungct.style.display = "block";
+
+                        // Check if gioitinh is a boolean or a string representation of boolean
+
+
+                        document.getElementsByName("detail_idpb")[0].value = idpb;
+                        document.getElementsByName("detail_tenpb")[0].value = tenpb;
+
+                    }
+
+                    // Function to close the detail modal
+                    function dongkhungct() {
+                        const khungct = document.getElementById("khungct");
+                        khungct.style.display = "none";
+                    }
+
+                    //function to show the update model
+                    function hienkhungcn(idpb, tenpb) {
+                        const khungct = document.getElementById("khungcn");
+                        khungct.style.display = "block";
+
+                        // Check if gioitinh is a boolean or a string representation of boolean
+
+
+                        document.getElementsByName("idpb1")[0].value = idpb;
+                        document.getElementsByName("tenpb1")[0].value = tenpb;
+
+                    }
+
+                    // Function to close the update modal
+                    function dongkhungcn() {
+                        const khungct = document.getElementById("khungcn");
+                        khungct.style.display = "none";
+                    }
+
+                    function hienkhungthem(idpb, tenpb) {
+                        const khungct = document.getElementById("khungthem");
+                        khungct.style.display = "block";
+
+                    }
+
+                    // Function to close the update modal
+                    function dongkhungthem() {
+                        const khungct = document.getElementById("khungthem");
+                        khungct.style.display = "none";
+                    }
+                </script>
